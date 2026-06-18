@@ -46,6 +46,25 @@ SHAP(SHapley Additive exPlanations) 값으로 각 변수의 방향성과 크기�
 
 ---
 
+## 폴더 구조
+
+```
+culture_project/
+├── preprocessing/          # 전처리 결과물
+├── eda/                    # 탐색적 데이터 분석
+├── 고속도로_영업소_통행량/
+├── 관광지_주변_공영주차장_수/
+├── 네이버랩_관광지_드라마_언급량/
+├── 드라마_관련_데이터/
+├── 시군구별_방문객_데이터/
+├── 인근_관광지/
+├── 일단위_지역별(시군구)_소비데이터/
+├── 지역별_교통인프라_data/
+└── 택시/
+```
+
+---
+
 ## 전처리 결과물 (preprocessing/)
 
 원본 데이터를 가공하여 ML 모델링에 바로 사용할 수 있는 형태로 정리한 결과물입니다.
@@ -85,6 +104,26 @@ preprocessing_merge.xlsx  →  Final_dataset_v4 시트 (모델 입력 준비 완
 import pandas as pd
 df = pd.read_excel('preprocessing/preprocessing_merge.xlsx', sheet_name='Final_dataset_v4')
 ```
+
+---
+
+## EDA (eda/)
+
+탐색적 데이터 분석 결과물입니다. 자세한 내용은 [`eda/README.md`](eda/README.md) 참고.
+
+| 파일 | 설명 |
+|------|------|
+| `eda/eda.ipynb` | EDA 전체 코드 (8개 섹션) |
+| `eda/eda_y_distribution.png` | 관광지별 방문객·소비 성장률 |
+| `eda/eda_xy_corr.png` | X-Y 상관계수 상위 15개 |
+| `eda/eda_feature_corr.png` | 특성 간 다중공선성 히트맵 |
+| `eda/eda_scatter_visit.png` | 주요 특성 vs 방문객 성장률 |
+| `eda/eda_scatter_consume.png` | 주요 특성 vs 소비 성장률 |
+
+**주요 발견:**
+- IC 통행량 성장률이 두 Y 모두에서 가장 강한 특성 (r ≈ 0.60~0.72)
+- 최근접 철도역 거리가 소비 성장률과 r = 0.95로 매우 강한 상관
+- Y 후보 특성 38개 확인 → 중복 제거 후 8~12개로 모델링 진행 예정
 
 ---
 

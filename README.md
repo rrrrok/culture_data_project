@@ -46,6 +46,48 @@ SHAP(SHapley Additive exPlanations) 값으로 각 변수의 방향성과 크기�
 
 ---
 
+## 전처리 결과물 (preprocessing/)
+
+원본 데이터를 가공하여 ML 모델링에 바로 사용할 수 있는 형태로 정리한 결과물입니다.
+
+### 파일 구성
+
+| 파일 | 설명 |
+|------|------|
+| `관광지_기준표_드라마통합_v6.xlsx` | 관광지·드라마 마스터 테이블 및 병합 절차 정의 |
+| `X_static_final.xlsx` | 정적 특성 (위치·인프라·드라마 메타, 관광지별 1행) |
+| `X_dynamic_v4.xlsx` | 동적 특성 (일별 교통·검색 시계열, 방송 전/중/후 집계) |
+| `preprocessing_merge.xlsx` | **최종 ML 입력 데이터** (Static + Dynamic 병합, 10행 × 96열) |
+
+### 데이터 흐름
+
+```
+원본 데이터 (고속도로 통행량 / 택시 / 네이버 검색량 / POI / 소비)
+        ↓
+X_static_final.xlsx   — 반경별 POI 수, IC 거리, 드라마 장르 원-핫 등 정적 특성 37개
+X_dynamic_v4.xlsx     — 방송 전8주 / 방송기간 / 후8주 평균·성장률 등 동적 집계 52개
+        ↓
+preprocessing_merge.xlsx  →  Final_dataset_v4 시트 (모델 입력 준비 완료)
+```
+
+### 최종 데이터셋 (Final_dataset_v4)
+
+- **샘플 수:** 10 (관광지-드라마 쌍)
+- **특성 수:** 96열 (정적 37 + 동적 52 + 메타 7)
+- **시간 범위:** 2023-01-07 ~ 2024-07-23
+- **목표 변수(Y):**
+  - `Y_visit_growth_8w` : 방송 전후 8주 방문객 성장률
+  - `Y_consume_growth_8w` : 방송 전후 8주 관광소비 성장률
+- **동적 특성 소스:** 고속도로 IC 통행량, 택시 이동량, 네이버 검색량
+- **누락 데이터:** 일부 관광지 교통 데이터 ~2% (고속도로·택시)
+
+```python
+import pandas as pd
+df = pd.read_excel('preprocessing/preprocessing_merge.xlsx', sheet_name='Final_dataset_v4')
+```
+
+---
+
 ## 데이터셋 및 인코딩 정보
 
 | 폴더 / 파일 | 설명 | 인코딩 |

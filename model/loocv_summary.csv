@@ -1,0 +1,5 @@
+﻿모델,타겟,MAE,R²
+XGBoost,Y_visit_growth_yoy,0.1443,-1.7816
+RandomForest,Y_visit_growth_yoy,0.1323,-1.0915
+XGBoost,Y_consume_growth_yoy,0.1043,-0.8796
+RandomForest,Y_consume_growth_yoy,0.1005,-0.6895
